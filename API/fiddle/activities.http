@@ -1,0 +1,7 @@
+@URL=http://localhost:5182
+
+###
+
+GET {{URL}}/activities
+
+
