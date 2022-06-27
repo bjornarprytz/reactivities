@@ -1,7 +1,35 @@
 @URL=http://localhost:5182
+@GUID=4b1668ef-8ac6-4ad8-a21f-a9793d1e1fab
 
 ###
 
-GET {{URL}}/activities
+GET {{URL}}/api/activities
 
+###
 
+POST {{URL}}/api/activities HTTP/1.1
+content-type: application/json
+
+{
+    "id": "{{GUID}}",
+    "title": "Title from HTTP client",
+    "description": "Such HTTP",
+    "category": "Post",
+    "date": "{{$datetime iso8601}}",
+    "city": "Tromsø",
+    "venue": "Ishavskatedralen"
+}
+
+###
+
+GET {{URL}}/api/activities/{{GUID}}
+
+###
+
+PUT {{URL}}/api/activities/{{GUID}}
+Content-Type: application/json
+
+{
+    "description": "Some",
+    "venue": "changes"
+}
