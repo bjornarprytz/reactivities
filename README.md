@@ -1,3 +1,12 @@
 # Repo
 
-https://github.com/bussajayasimhareddylearning/TryCatchLearn_Reactivities_Neil
+## How to run
+
+Start API:
+
+`dotnet run ./API`
+
+Start Client:
+
+`cd client-app`
+`npm start`
