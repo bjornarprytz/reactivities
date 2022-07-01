@@ -10,5 +10,5 @@ public class DataContext : DbContext
         
     }
     
-    public DbSet<Activity> Activities { get; set; }
+    public DbSet<Reactivity> Activities { get; set; }
 }

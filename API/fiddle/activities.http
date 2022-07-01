@@ -1,3 +1,6 @@
+# To use this, download VSCode extension:
+# https://github.com/Huachao/vscode-restclient
+
 @URL=http://localhost:5182
 @GUID=4b1668ef-8ac6-4ad8-a21f-a9793d1e1fab
 
@@ -30,6 +33,14 @@ PUT {{URL}}/api/activities/{{GUID}}
 Content-Type: application/json
 
 {
+    "title": "Title from HTTP client",
     "description": "Some",
+    "category": "Post",
+    "date": "{{$datetime iso8601}}",
+    "city": "Tromsø",
     "venue": "changes"
 }
+
+###
+
+DELETE {{URL}}/api/activities/{{GUID}}

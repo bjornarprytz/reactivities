@@ -9,7 +9,7 @@ public class Seed
         {
             if (context.Activities.Any()) return;
 
-            var pastFaker = new Faker<Activity>()
+            var pastFaker = new Faker<Reactivity>()
                 .RuleFor(o => o.Title, f => f.Lorem.Word())
                 .RuleFor(o => o.Date, f => f.Date.Recent())
                 .RuleFor(o => o.Description, f => f.Company.CatchPhrase())
@@ -18,7 +18,7 @@ public class Seed
                 .RuleFor(o => o.Venue, f => f.Address.BuildingNumber())
                 ;
             
-            var futureFaker = new Faker<Activity>()
+            var futureFaker = new Faker<Reactivity>()
                     .RuleFor(o => o.Title, f => f.Lorem.Word())
                     .RuleFor(o => o.Date, f => f.Date.Soon())
                     .RuleFor(o => o.Description, f => f.Company.CatchPhrase())

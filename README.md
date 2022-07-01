@@ -4,9 +4,18 @@
 
 Start API:
 
-`dotnet run ./API`
+```console
+cd API
+dotnet run
+```
 
 Start Client:
 
-`cd client-app`
-`npm start`
+```console
+cd client-app
+npm start
+```
+
+## Fiddle
+
+Use [vscode HTTP client](https://github.com/Huachao/vscode-restclient) to test against API with the [http file](API/fiddle/activities.http).

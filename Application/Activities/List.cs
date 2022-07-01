@@ -7,8 +7,8 @@ namespace Application.Activities;
 
 public class List
 {
-    public record Query : IRequest<IEnumerable<Activity>>;
-    public class Handler : IRequestHandler<Query, IEnumerable<Activity>>
+    public record Query : IRequest<IEnumerable<Reactivity>>;
+    public class Handler : IRequestHandler<Query, IEnumerable<Reactivity>>
     {
         private readonly DataContext _context;
 
@@ -17,7 +17,7 @@ public class List
             _context = context;
         }
         
-        public async Task<IEnumerable<Activity>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Reactivity>> Handle(Query request, CancellationToken cancellationToken)
         {
             return await _context.Activities.ToListAsync(cancellationToken);
         }

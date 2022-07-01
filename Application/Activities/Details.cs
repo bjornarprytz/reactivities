@@ -6,9 +6,9 @@ namespace Application.Activities;
 
 public class Details
 {
-    public record Query(Guid Id) : IRequest<Activity?>;
+    public record Query(Guid Id) : IRequest<Reactivity?>;
     
-    public class Handler : IRequestHandler<Query, Activity?>
+    public class Handler : IRequestHandler<Query, Reactivity?>
     {
         private readonly DataContext _context;
 
@@ -17,7 +17,7 @@ public class Details
             _context = context;
         }
         
-        public async Task<Activity?> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<Reactivity?> Handle(Query request, CancellationToken cancellationToken)
         {
             return await _context.Activities.FindAsync(new object?[] { request.Id }, cancellationToken: cancellationToken);
         }

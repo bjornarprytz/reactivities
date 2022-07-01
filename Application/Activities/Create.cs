@@ -6,7 +6,7 @@ namespace Application.Activities;
 
 public class Create
 {
-    public record Command(Activity Activity) : IRequest;
+    public record Command(Reactivity Reactivity) : IRequest;
     
     public class Handler : IRequestHandler<Command>
     {
@@ -19,7 +19,7 @@ public class Create
         
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            _context.Activities.Add(request.Activity);
+            _context.Activities.Add(request.Reactivity);
 
             await _context.SaveChangesAsync(cancellationToken);
             

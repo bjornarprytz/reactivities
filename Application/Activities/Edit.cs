@@ -7,7 +7,7 @@ namespace Application.Activities;
 
 public class Edit
 {
-    public record Command(Activity Activity) : IRequest;
+    public record Command(Reactivity Reactivity) : IRequest;
     
     public class Handler : IRequestHandler<Command>
     {
@@ -22,9 +22,9 @@ public class Edit
         
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            var activity = await _context.Activities.FindAsync(new object?[] { request.Activity.Id }, cancellationToken: cancellationToken);
+            var reactivity = await _context.Activities.FindAsync(new object?[] { request.Reactivity.Id }, cancellationToken: cancellationToken);
 
-            _mapper.Map(request.Activity, activity);
+            _mapper.Map(request.Reactivity, reactivity);
 
             await _context.SaveChangesAsync(cancellationToken);
             
