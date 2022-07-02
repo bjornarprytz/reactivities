@@ -7,6 +7,8 @@ import ReactivityDashboard from '../../features/activities/dashboard/ReactivityD
 
 function App() {
   const [activities, setActivities] = useState<Reactivity[]>([]);
+  const [selectedActivity, setSelectedActivity] = useState<Reactivity | undefined>(undefined);
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     axios.get<Reactivity[]>('http://localhost:5182/api/activities').then(response => {
@@ -14,13 +16,38 @@ function App() {
     })
   }, []);
 
+  function handleSelectActivity(id: string){
+    setSelectedActivity(activities.find(a => a.id === id))
+  }
+
+  function handleCancelSelectActivity(){
+    setSelectedActivity(undefined);
+  }
+
+  function handleFormOpen(id? : string){
+    id ? handleSelectActivity(id) : handleCancelSelectActivity();
+    setEditMode(true);
+  }
+
+  function handleFormClose(){
+    setEditMode(false);
+  }
+
   return (
     <>
-      <NavBar />
+      <NavBar openForm={handleFormOpen} />
 
       <Container style={{marginTop: '7em'}}>
 
-        <ReactivityDashboard activities={activities} />
+        <ReactivityDashboard 
+          activities={activities}
+          selectedActivity={selectedActivity}
+          selectActivity={handleSelectActivity}
+          cancelSelectActivity={handleCancelSelectActivity}
+          editMode={editMode}
+          openForm={handleFormOpen}
+          closeForm={handleFormClose}
+        />
       </Container>
     </>
   );
