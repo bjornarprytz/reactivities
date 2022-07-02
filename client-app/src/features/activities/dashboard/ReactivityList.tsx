@@ -10,7 +10,7 @@ export default function ReactivityList({activities} : Props) {
     return(
         <Segment>
             <Item.Group divided>
-                {activities.map(activity => (
+                {activities.map(activity => 
                     <Item key={activity.id}>
                         <Item.Content>
                             <Item.Header as='a'>{activity.title}</Item.Header>
@@ -25,7 +25,7 @@ export default function ReactivityList({activities} : Props) {
                             </Item.Extra>
                         </Item.Content>
                     </Item>
-                ))}
+                )}
             </Item.Group>
         </Segment>
     )

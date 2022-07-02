@@ -5,6 +5,16 @@ namespace Persistence;
 
 public class Seed
 {
+    private static readonly string[] Categories = 
+    {
+        "culture",
+        "drinks",
+        "film",
+        "food",
+        "music",
+        "travel"
+    };
+    
     public static async Task SeedData(DataContext context)
         {
             if (context.Activities.Any()) return;
@@ -13,7 +23,7 @@ public class Seed
                 .RuleFor(o => o.Title, f => f.Lorem.Word())
                 .RuleFor(o => o.Date, f => f.Date.Recent())
                 .RuleFor(o => o.Description, f => f.Company.CatchPhrase())
-                .RuleFor(o => o.Category, f => f.Lorem.Word())
+                .RuleFor(o => o.Category, f => f.PickRandom(Categories))
                 .RuleFor(o => o.City, f => f.Address.City())
                 .RuleFor(o => o.Venue, f => f.Address.BuildingNumber())
                 ;
@@ -22,7 +32,7 @@ public class Seed
                     .RuleFor(o => o.Title, f => f.Lorem.Word())
                     .RuleFor(o => o.Date, f => f.Date.Soon())
                     .RuleFor(o => o.Description, f => f.Company.CatchPhrase())
-                    .RuleFor(o => o.Category, f => f.Lorem.Word())
+                    .RuleFor(o => o.Category, f => f.PickRandom(Categories))
                     .RuleFor(o => o.City, f => f.Address.City())
                     .RuleFor(o => o.Venue, f => f.Address.BuildingNumber())
                 ;
