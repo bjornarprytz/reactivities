@@ -5,9 +5,10 @@ import { Reactivity } from '../../../app/models/reactivity';
 interface Props {
     activity : Reactivity | undefined;
     closeForm: () => void;
+    createOrEdit: (activity: Reactivity) => void;
 }
 
-export default function ReactivityForm({activity: selectedActivity, closeForm} : Props){
+export default function ReactivityForm({activity: selectedActivity, closeForm, createOrEdit} : Props){
 
     const initialState = selectedActivity ?? {
         id: '',
@@ -22,7 +23,7 @@ export default function ReactivityForm({activity: selectedActivity, closeForm} :
     const [activity, setActivity] = useState(initialState);
 
     function handleSubmit(){
-        console.log(activity);
+        createOrEdit(activity);
     }
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>){

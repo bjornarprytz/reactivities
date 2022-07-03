@@ -10,9 +10,11 @@ interface Props {
     selectedActivity: Reactivity | undefined;
     selectActivity: (id: string) => void;
     cancelSelectActivity: () => void;
+    deleteActivity: (id: string) => void;
     editMode: boolean;
     openForm: (id: string) => void;
     closeForm: () => void;
+    createOrEdit: (activity: Reactivity) => void;
 }
 
 export default function ReactivityDashboard(
@@ -21,16 +23,22 @@ export default function ReactivityDashboard(
         selectedActivity, 
         selectActivity, 
         cancelSelectActivity,
+        deleteActivity,
         editMode,
         openForm,
-        closeForm
+        closeForm,
+        createOrEdit,
         
     } : Props
     ) {
     return (
         <Grid>
             <Grid.Column width='10'>
-                <ReactivityList activities={activities} selectActivity={selectActivity} />
+                <ReactivityList 
+                    activities={activities} 
+                    selectActivity={selectActivity} 
+                    deleteActivity={deleteActivity}
+                />
             </Grid.Column>
             <Grid.Column width='6'>
                 {selectedActivity && !editMode &&
@@ -43,6 +51,7 @@ export default function ReactivityDashboard(
                 <ReactivityForm 
                     activity={selectedActivity}
                     closeForm={closeForm}
+                    createOrEdit={createOrEdit}
                 />}
             </Grid.Column>
         </Grid>
