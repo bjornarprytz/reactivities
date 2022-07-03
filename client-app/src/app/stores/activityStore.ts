@@ -22,12 +22,14 @@ export default class ReactivityStore {
     loadActivities = async () => {
         try {
             const activities = await agent.Activities.list();
-            activities.forEach(a => {
-                a.date = a.date.split('T')[0];
-                this.activityRegistry.set(a.id, a);
-            });
-            this.setLoadingInitial(false);
             
+            runInAction(() => {
+                activities.forEach(a => {
+                    a.date = a.date.split('T')[0];
+                    this.activityRegistry.set(a.id, a);
+                });
+                this.setLoadingInitial(false);
+            })
         } catch (error){
             console.log(error);
             this.setLoadingInitial(false);

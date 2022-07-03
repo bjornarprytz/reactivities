@@ -5,22 +5,23 @@ import ReactivityDashboard from '../../features/activities/dashboard/ReactivityD
 import LoadingComponent from './LoadingComponents';
 import { useStore } from '../stores/store';
 import { observer } from 'mobx-react-lite';
+import HomePage from '../../features/home/HomePage';
+import ReactivityForm from '../../features/activities/form/ReactivityForm';
+import { Route, Routes } from 'react-router-dom';
+import NotFound from '../../features/notfound/NotFound';
 
 function App() {
-  const { activityStore } = useStore();
-
-  useEffect(() => {
-    activityStore.loadActivities();
-  }, [activityStore]);
-
-  if (activityStore.loadingInitial) return <LoadingComponent content='Loading app'/>
-
   return (
     <>
       <NavBar />
 
       <Container style={{marginTop: '7em'}}>
-        <ReactivityDashboard />
+        <Routes>
+          <Route path='/' element={<HomePage/>} />
+          <Route path='/activities' element={<ReactivityDashboard />} />
+          <Route path='/createActivity' element={<ReactivityForm />} />
+          <Route path='*' element={<NotFound />} />
+        </Routes>
       </Container>
     </>
   );
