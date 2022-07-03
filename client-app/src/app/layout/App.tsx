@@ -1,9 +1,6 @@
-import { useEffect } from 'react';
 import { Container } from 'semantic-ui-react';
 import NavBar from './NavBar';
 import ReactivityDashboard from '../../features/activities/dashboard/ReactivityDashboard';
-import LoadingComponent from './LoadingComponents';
-import { useStore } from '../stores/store';
 import { observer } from 'mobx-react-lite';
 import HomePage from '../../features/home/HomePage';
 import ReactivityForm from '../../features/activities/form/ReactivityForm';
