@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './app/layout/App';
 import './app/layout/styles.css'
+import { store, StoreContext } from './app/stores/store';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -9,7 +10,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <StoreContext.Provider value={store}>
+        <App />
+    </StoreContext.Provider>
   </React.StrictMode>
 );
 
