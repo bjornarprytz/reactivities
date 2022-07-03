@@ -5,10 +5,7 @@ import LoadingComponent from '../../../app/layout/LoadingComponents';
 import { useStore } from '../../../app/stores/store';
 
 
-export default observer(
-
-    function ReactivityDetails() {
-
+export default observer(function ReactivityDetails() {
     const {activityStore} = useStore();
     const {selectedActivity: activity, openForm, cancelSelectedActivity} = activityStore;
 

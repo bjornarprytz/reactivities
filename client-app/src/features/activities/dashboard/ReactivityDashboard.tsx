@@ -1,13 +1,11 @@
 import { observer } from 'mobx-react-lite';
-import React from 'react';
 import { Grid } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import ReactivityDetails from '../details/ReactivityDetails';
 import ReactivityForm from '../form/ReactivityForm';
 import ReactivityList from './ReactivityList';
 
-export default observer(
-    function ReactivityDashboard() {
+export default observer(function ReactivityDashboard() {
     const {activityStore} = useStore();
     const {selectedActivity, editMode} = activityStore;
 
