@@ -3,19 +3,17 @@ import { useEffect } from 'react';
 import { Grid } from 'semantic-ui-react';
 import LoadingComponent from '../../../app/layout/LoadingComponents';
 import { useStore } from '../../../app/stores/store';
-import ReactivityDetails from '../details/ReactivityDetails';
-import ReactivityForm from '../form/ReactivityForm';
 import ReactivityList from './ReactivityList';
 
 export default observer(function ReactivityDashboard() {
     const {activityStore} = useStore();
-    const {selectedActivity, editMode} = activityStore;
+    const {loadActivities, activityRegistry, loadingInitial} = activityStore;
 
     useEffect(() => {
-      activityStore.loadActivities();
-    }, [activityStore]);
+      if (activityRegistry.size <= 1) loadActivities();
+    }, [loadActivities, activityRegistry.size]);
   
-    if (activityStore.loadingInitial) return <LoadingComponent content='Loading app'/>
+    if (loadingInitial) return <LoadingComponent content='Loading app'/>
 
     return (
         <Grid>
@@ -23,10 +21,7 @@ export default observer(function ReactivityDashboard() {
                 <ReactivityList />
             </Grid.Column>
             <Grid.Column width='6'>
-                {selectedActivity && !editMode &&
-                <ReactivityDetails/>}
-                {editMode && 
-                <ReactivityForm />}
+                <h2>Activity Filters</h2>
             </Grid.Column>
         </Grid>
     )

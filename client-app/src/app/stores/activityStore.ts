@@ -1,7 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
 import { Reactivity } from "../models/reactivity";
-import { v4 as uuid } from 'uuid';
 
 export default class ReactivityStore {
     activityRegistry = new Map<string, Reactivity>();
@@ -20,19 +19,46 @@ export default class ReactivityStore {
     }
 
     loadActivities = async () => {
+        this.setLoadingInitial(true);
+        console.log('set loading to true');
+        
         try {
             const activities = await agent.Activities.list();
             
             runInAction(() => {
                 activities.forEach(a => {
-                    a.date = a.date.split('T')[0];
-                    this.activityRegistry.set(a.id, a);
-                });
-                this.setLoadingInitial(false);
+                    this.insertActivity(a);
+                })
             })
+            this.setLoadingInitial(false);
+            console.log('set loading to false');
         } catch (error){
             console.log(error);
             this.setLoadingInitial(false);
+            console.log('set loading to false');
+        }
+    }
+
+    loadActivity = async (id: string) => {
+        const activityFromMemory = this.getActivity(id);
+
+        if (activityFromMemory) {
+            this.selectedActivity = activityFromMemory;
+            return activityFromMemory;
+        } else {
+            this.setLoadingInitial(true);
+
+            try {
+                const activityFromBackend = await agent.Activities.details(id);
+                
+                this.insertActivity(activityFromBackend);
+                this.setSelectedActivity(activityFromBackend);
+                this.setLoadingInitial(false);
+                return activityFromBackend;
+            } catch(error) {
+                console.log(error);
+                this.setLoadingInitial(false);
+            }
         }
     }
 
@@ -44,26 +70,12 @@ export default class ReactivityStore {
         this.loading = state;
     }
 
-    selectActivity = (id: string) => {
-        this.selectedActivity = this.activityRegistry.get(id);
-    }
-
-    cancelSelectedActivity = () => {
-        this.selectedActivity = undefined;
-    }
-
-    openForm = (id?: string) => {
-        id ? this.selectActivity(id) : this.cancelSelectedActivity();
-        this.editMode = true;
-    }
-
-    closeForm = () => {
-        this.editMode = false;
+    setSelectedActivity = (activity: Reactivity) => {
+        this.selectedActivity = activity;
     }
 
     createActivity = async (activity: Reactivity) => {
         this.setLoading(true);
-        activity.id = uuid();
 
         try {
             await agent.Activities.create(activity);
@@ -101,12 +113,20 @@ export default class ReactivityStore {
             await agent.Activities.delete(id);
             runInAction(() => {
                 this.activityRegistry.delete(id);
-                if (this.selectedActivity?.id === id) this.cancelSelectedActivity();
                 this.setLoading(false);
             })
         } catch (error) {
             console.log(error);
             this.setLoading(false);
         }
+    }
+
+    private insertActivity(activity: Reactivity) {
+        activity.date = activity.date.split('T')[0];
+        this.activityRegistry.set(activity.id, activity);
+    }
+
+    private getActivity(id: string) {
+        return this.activityRegistry.get(id);
     }
 }

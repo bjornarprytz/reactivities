@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import App from './app/layout/App';
 import './app/layout/styles.css'
 import { store, StoreContext } from './app/stores/store';
+import { browserHistory } from './features/history/history';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -12,9 +13,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <StoreContext.Provider value={store}>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <App />
-      </BrowserRouter>
+      </HistoryRouter>
     </StoreContext.Provider>
   </React.StrictMode>
 );
