@@ -1,9 +1,13 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Button, Card, Image } from 'semantic-ui-react';
+import { Button, Card, Grid, Image } from 'semantic-ui-react';
 import LoadingComponent from '../../../app/layout/LoadingComponents';
 import { useStore } from '../../../app/stores/store';
+import ReactivityDetailedChat from './ReactivityDetailedChat';
+import ReactivityDetailedHeader from './ReactivityDetailedHeader';
+import ReactivityDetailedInfo from './ReactivityDetailedInfo';
+import ReactivityDetailedSidebar from './ReactivityDetailedSidebar';
 
 
 export default observer(function ReactivityDetails() {
@@ -18,23 +22,16 @@ export default observer(function ReactivityDetails() {
     if (loadingInitial || !activity) return <LoadingComponent />;
 
     return (
-        <Card fluid>
-            <Image src={`/assets/categoryImages/${activity.category}.jpg`} wrapped ui={false} />
-            <Card.Content>
-                <Card.Header>{activity.title}</Card.Header>
-                <Card.Meta>
-                    <span>{activity.date}</span>
-                </Card.Meta>
-                <Card.Description>
-                    {activity.description}
-                </Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                    <Button.Group widths='2'>
-                        <Button as={Link} to={`/manage/${activity.id}`} basic color='blue' content='Edit'/>
-                        <Button as={Link} to='/activities' basic color='grey' content='Cancel'/>
-                    </Button.Group>
-            </Card.Content>
-        </Card>
+        <Grid>
+            <Grid.Column width={10}>
+                <ReactivityDetailedHeader activity={activity} />
+                <ReactivityDetailedInfo activity={activity} />
+                <ReactivityDetailedChat />
+            </Grid.Column>
+            <Grid.Column width={6}>
+                <ReactivityDetailedSidebar />
+
+            </Grid.Column>
+        </Grid>
     )
 })

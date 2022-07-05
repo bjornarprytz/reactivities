@@ -18,9 +18,19 @@ export default class ReactivityStore {
             Date.parse(a.date) - Date.parse(b.date));
     }
 
+    get groupedActivities() {
+        return Object.entries(
+            this.activitiesByDate.reduce((activities, activity) => {
+                const date = activity.date;
+                activities[date] = activities[date] ? [...activities[date], activity] : [activity];
+
+                return activities;
+            }, {} as {[key: string]: Reactivity[]})
+        )
+    }
+
     loadActivities = async () => {
         this.setLoadingInitial(true);
-        console.log('set loading to true');
         
         try {
             const activities = await agent.Activities.list();
@@ -31,11 +41,9 @@ export default class ReactivityStore {
                 })
             })
             this.setLoadingInitial(false);
-            console.log('set loading to false');
         } catch (error){
             console.log(error);
             this.setLoadingInitial(false);
-            console.log('set loading to false');
         }
     }
 

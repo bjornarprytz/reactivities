@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { Grid } from 'semantic-ui-react';
 import LoadingComponent from '../../../app/layout/LoadingComponents';
 import { useStore } from '../../../app/stores/store';
+import ReactivityFilters from './ReactivityFilters';
 import ReactivityList from './ReactivityList';
 
 export default observer(function ReactivityDashboard() {
@@ -21,7 +22,7 @@ export default observer(function ReactivityDashboard() {
                 <ReactivityList />
             </Grid.Column>
             <Grid.Column width='6'>
-                <h2>Activity Filters</h2>
+                <ReactivityFilters />
             </Grid.Column>
         </Grid>
     )
