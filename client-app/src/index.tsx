@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import App from './app/layout/App';

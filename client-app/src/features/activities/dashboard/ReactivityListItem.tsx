@@ -1,25 +1,13 @@
 import { observer } from 'mobx-react-lite';
-import React, { SyntheticEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Icon, Item, Label, Segment, SegmentGroup } from 'semantic-ui-react';
+import { Button, Icon, Item, Segment } from 'semantic-ui-react';
 import { Reactivity } from '../../../app/models/reactivity';
-import { useStore } from '../../../app/stores/store';
 
 interface Props {
     activity: Reactivity;
 }
 
 export default observer(function ReactivityListItem({activity}: Props) {
-    const {activityStore} = useStore();
-    const {loading, deleteActivity} = activityStore;
-
-    const [target, setTarget] = useState('');
-
-    function handleActivityDelete(e: SyntheticEvent<HTMLButtonElement>, id: string){
-        setTarget(e.currentTarget.name);
-        deleteActivity(id);
-    }
-
     return (
         <Segment.Group>
             <Segment>
