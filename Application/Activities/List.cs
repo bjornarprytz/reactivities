@@ -1,4 +1,6 @@
-﻿using Domain;
+﻿using Application.Core;
+using Domain;
+using LanguageExt;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -7,8 +9,8 @@ namespace Application.Activities;
 
 public class List
 {
-    public record Query : IRequest<IEnumerable<Reactivity>>;
-    public class Handler : IRequestHandler<Query, IEnumerable<Reactivity>>
+    public record Query : IRequestWrapper<IEnumerable<Reactivity>>;
+    public class Handler : IRequestHandlerWrapper<Query, IEnumerable<Reactivity>>
     {
         private readonly DataContext _context;
 
@@ -17,7 +19,7 @@ public class List
             _context = context;
         }
         
-        public async Task<IEnumerable<Reactivity>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<Either<Error, IEnumerable<Reactivity>>> Handle(Query request, CancellationToken cancellationToken)
         {
             return await _context.Activities.ToListAsync(cancellationToken);
         }

@@ -1,4 +1,6 @@
-﻿using Domain;
+﻿using Application.Core;
+using Domain;
+using LanguageExt;
 using MediatR;
 using Persistence;
 
@@ -6,9 +8,9 @@ namespace Application.Activities;
 
 public class Details
 {
-    public record Query(Guid Id) : IRequest<Reactivity?>;
+    public record Query(Guid Id) : IRequestWrapper<Reactivity?>;
     
-    public class Handler : IRequestHandler<Query, Reactivity?>
+    public class Handler : IRequestHandlerWrapper<Query, Reactivity?>
     {
         private readonly DataContext _context;
 
@@ -17,9 +19,16 @@ public class Details
             _context = context;
         }
         
-        public async Task<Reactivity?> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<Either<Error, Reactivity?>> Handle(Query request, CancellationToken cancellationToken)
         {
-            return await _context.Activities.FindAsync(new object?[] { request.Id }, cancellationToken: cancellationToken);
+
+            if (await _context.Activities.FindAsync(new object?[] { request.Id }, cancellationToken: cancellationToken)
+                is not { } activity)
+            {
+                return default;
+            }
+            
+            return activity;
         }
     }
 }

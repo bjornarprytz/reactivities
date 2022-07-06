@@ -1,33 +1,36 @@
-﻿using MediatR;
+﻿using Application.Core;
+using LanguageExt;
 using Persistence;
+using Unit = MediatR.Unit;
 
 namespace Application.Activities;
 
 public class Delete
 {
-    public record Command(Guid Id) : IRequest;
+    public record Command(Guid Id) : IRequestWrapper<Unit?>;
     
-    public class Handler : IRequestHandler<Command>
+    public class Handler : IRequestHandlerWrapper<Command, Unit?>
     {
-        private readonly DataContext _dataContext;
+        private readonly DataContext _context;
 
         public Handler(DataContext dataContext)
         {
-            _dataContext = dataContext;
+            _context = dataContext;
         }
         
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Either<Error, Unit?>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var reactivity  = await _dataContext.Activities.FindAsync(new object?[] { request.Id }, cancellationToken: cancellationToken);
-
-            if (reactivity is null)
+            if (await _context.Activities.FindAsync(new object?[] { request.Id }, cancellationToken: cancellationToken)
+                is not { } activity)
             {
-                return Unit.Value;
+                return default;
             }
             
-            _dataContext.Activities.Remove(reactivity);
+            _context.Activities.Remove(activity);
 
-            await _dataContext.SaveChangesAsync(cancellationToken);
+            var noChangesWereMade = await _context.SaveChangesAsync(cancellationToken) == 0;
+
+            if (noChangesWereMade) return new Error("Failed to delete the activity");
             
             return Unit.Value;
         }
