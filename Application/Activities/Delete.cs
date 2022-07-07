@@ -7,9 +7,9 @@ namespace Application.Activities;
 
 public class Delete
 {
-    public record Command(Guid Id) : IRequestWrapper<Unit?>;
+    public record Command(Guid Id) : IRequestWrapper;
     
-    public class Handler : IRequestHandlerWrapper<Command, Unit?>
+    public class Handler : IRequestHandlerWrapper<Command>
     {
         private readonly DataContext _context;
 
@@ -18,7 +18,7 @@ public class Delete
             _context = dataContext;
         }
         
-        public async Task<Either<Error, Unit?>> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Either<Error, Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
             if (await _context.Activities.FindAsync(new object?[] { request.Id }, cancellationToken: cancellationToken)
                 is not { } activity)

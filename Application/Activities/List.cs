@@ -1,7 +1,6 @@
 ﻿using Application.Core;
 using Domain;
 using LanguageExt;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
