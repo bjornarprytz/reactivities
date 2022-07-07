@@ -2,9 +2,10 @@ import ReactDOM from 'react-dom/client';
 import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import App from './app/layout/App';
 import 'react-calendar/dist/Calendar.css'
+import 'react-toastify/dist/ReactToastify.min.css'
 import './app/layout/styles.css'
 import { store, StoreContext } from './app/stores/store';
-import { browserHistory } from './features/history/history';
+import { history } from './features/history/history';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -12,7 +13,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <StoreContext.Provider value={store}>
-      <HistoryRouter history={browserHistory}>
+      <HistoryRouter history={history}>
         <App />
       </HistoryRouter>
     </StoreContext.Provider>

@@ -5,7 +5,7 @@ import { Button, Form, Segment } from 'semantic-ui-react';
 import LoadingComponent from '../../../app/layout/LoadingComponents';
 import { useStore } from '../../../app/stores/store';
 import { v4 as uuid } from 'uuid';
-import { browserHistory } from '../../history/history';
+import { history } from '../../history/history';
 
 
 export default observer(function ReactivityForm(){
@@ -33,9 +33,9 @@ export default observer(function ReactivityForm(){
                 ...activity,
                 id: uuid()
             };
-            createActivity(newActivity).then(() => browserHistory.push(`/activities/${newActivity.id}`))
+            createActivity(newActivity).then(() => history.push(`/activities/${newActivity.id}`))
         } else {
-            updateActivity(activity).then(() => browserHistory.push(`/activities/${activity.id}`))
+            updateActivity(activity).then(() => history.push(`/activities/${activity.id}`))
         }
 
     }

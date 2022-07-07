@@ -1,4 +1,5 @@
 using API.Extensions;
+using API.Middleware;
 using Application.Activities;
 using FluentValidation.AspNetCore;
 
@@ -19,6 +20,8 @@ builder.Services.AddApplicationServices(builder.Configuration);
 var app = builder.Build();
 
 await app.MigrateDatabase();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
