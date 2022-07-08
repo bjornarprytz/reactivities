@@ -1,9 +1,10 @@
 import ReactDOM from 'react-dom/client';
 import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import App from './app/layout/App';
-import 'react-calendar/dist/Calendar.css'
-import 'react-toastify/dist/ReactToastify.min.css'
-import './app/layout/styles.css'
+import 'react-calendar/dist/Calendar.css';
+import 'react-toastify/dist/ReactToastify.min.css';
+import 'react-datepicker/dist/react-datepicker.css';
+import './app/layout/styles.css';
 import { store, StoreContext } from './app/stores/store';
 import { history } from './features/history/history';
 import reportWebVitals from './reportWebVitals';
