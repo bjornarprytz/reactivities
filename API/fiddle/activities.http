@@ -1,17 +1,69 @@
 # To use this, download VSCode extension:
 # https://github.com/Huachao/vscode-restclient
 
-@URL=http://localhost:5182
+@API=http://localhost:5182/api
 @GUID=4b1668ef-8ac6-4ad8-a21f-a9793d1e1fab
+@TOKEN=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImJvYiIsIm5hbWVpZCI6Ijk1ZTAwZDdjLWI1MDAtNDA4YS1hOWUyLWIwMTA1NmIzODIxNCIsImVtYWlsIjoiYm9iQHRlc3QuY29tIiwibmJmIjoxNjU3Mjg2ODI5LCJleHAiOjE2NTc4OTE2MjksImlhdCI6MTY1NzI4NjgyOX0.rVNzKQDqbdEpLy_W52i7JMWcvVoW9wh3Tmy6nyUQVwOzL4kqadseBFqC6e-_4MAJ27a0DINbf3qLltmHpFpVAg
 
-###
+### Login
 
-GET {{URL}}/api/activities
-
-###
-
-POST {{URL}}/api/activities HTTP/1.1
+POST {{API}}/account/login
 content-type: application/json
+
+{
+    "email": "bob@test.com",
+    "password": "Passw0rd"
+}
+
+### Login - failure
+
+POST {{API}}/account/login
+content-type: application/json
+
+{
+    "email": "bob@test.com",
+    "password": "Bad password"
+}
+
+### Register
+
+POST {{API}}/account/register
+Content-Type: application/json
+
+{
+    "email": "paul@test.com",
+    "username": "paul",
+    "displayName": "pauly",
+    "password": "PaulR0cks"
+}
+
+### Register - failure
+
+POST {{API}}/account/register
+Content-Type: application/json
+
+{
+    "email": "",
+    "username": "",
+    "displayName": "",
+    "password": ""
+}
+
+### User
+
+GET {{API}}/account
+Authorization: Bearer {{TOKEN}}
+
+### List
+
+GET {{API}}/activities
+Authorization: Bearer {{TOKEN}}
+
+### Create
+
+POST {{API}}/activities HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{TOKEN}}
 
 {
     "id": "{{GUID}}",
@@ -23,21 +75,24 @@ content-type: application/json
     "venue": "Ishavskatedralen"
 }
 
-###
+### Create - failure
 
-POST {{URL}}/api/activities HTTP/1.1
+POST {{API}}/activities HTTP/1.1
 content-type: application/json
+Authorization: Bearer {{TOKEN}}
 
 { }
 
-###
+### Details
 
-GET {{URL}}/api/activities/{{GUID}}
+GET {{API}}/activities/{{GUID}}
+Authorization: Bearer {{TOKEN}}
 
-###
+### Update
 
-PUT {{URL}}/api/activities/{{GUID}}
+PUT {{API}}/activities/{{GUID}}
 Content-Type: application/json
+Authorization: Bearer {{TOKEN}}
 
 {
     "title": "Title from HTTP client",
@@ -48,6 +103,7 @@ Content-Type: application/json
     "venue": "changes"
 }
 
-###
+### Delete
 
-DELETE {{URL}}/api/activities/{{GUID}}
+DELETE {{API}}/activities/{{GUID}}
+Authorization: Bearer {{TOKEN}}
