@@ -37,3 +37,5 @@ Use [vscode HTTP client](https://github.com/Huachao/vscode-restclient) to test a
 - Write tests
   - React components
   - Typescript
+- [Next.js](https://nextjs.org/)
+- [Remix](https://remix.run/)

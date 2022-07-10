@@ -1,10 +1,10 @@
+import { observer } from "mobx-react-lite";
 import { Container, Header, Segment } from "semantic-ui-react";
 import { useStore } from "../../app/stores/store";
 
 
-export default function ServerError() {
-    const {commonStore} = useStore();
-    const {error} = commonStore;
+export default observer(function ServerError() {
+    const {commonStore: {error}} = useStore();
 
     return (
         <Container>
@@ -18,4 +18,4 @@ export default function ServerError() {
             }
         </Container>
     )
-}
+})

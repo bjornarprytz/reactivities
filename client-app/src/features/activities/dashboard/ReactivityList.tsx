@@ -6,9 +6,7 @@ import ReactivityListItem from './ReactivityListItem';
 
 
 export default observer(function ReactivityList() {
-    const {activityStore} = useStore();
-    const {groupedActivities} = activityStore;
-
+    const {activityStore: {groupedActivities}} = useStore();
 
     return(
         <>
