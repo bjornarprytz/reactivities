@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
 import { Reactivity } from "../models/reactivity";
+import { store } from "./store";
 
 export default class ReactivityStore {
     activityRegistry = new Map<string, Reactivity>();
@@ -131,6 +132,15 @@ export default class ReactivityStore {
     }
 
     private insertActivity(activity: Reactivity) {
+        const user = store.userStore.user;
+        if (user) {
+            activity.isGoing = activity.attendees!.some(
+                a => a.username === user.username
+            )
+            activity.isHost = activity.hostUsername === user.username;
+            activity.host = activity.attendees?.find(x => x.username === activity.hostUsername);
+        }
+
         activity.date = new Date(activity.date!);
         this.activityRegistry.set(activity.id, activity);
     }

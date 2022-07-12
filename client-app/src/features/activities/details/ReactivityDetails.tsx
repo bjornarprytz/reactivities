@@ -29,7 +29,7 @@ export default observer(function ReactivityDetails() {
                 <ReactivityDetailedChat />
             </Grid.Column>
             <Grid.Column width={6}>
-                <ReactivityDetailedSidebar />
+                <ReactivityDetailedSidebar activity={activity} />
 
             </Grid.Column>
         </Grid>

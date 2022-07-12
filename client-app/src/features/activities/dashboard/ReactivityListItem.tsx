@@ -1,8 +1,9 @@
 import { format } from 'date-fns';
 import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
-import { Button, Icon, Item, Segment } from 'semantic-ui-react';
+import { Button, Icon, Item, Label, Segment } from 'semantic-ui-react';
 import { Reactivity } from '../../../app/models/reactivity';
+import ReactivityListItemAttendee from './ReactivityListItemAttendee';
 
 interface Props {
     activity: Reactivity;
@@ -20,8 +21,22 @@ export default observer(function ReactivityListItem({activity}: Props) {
                                 {activity.title}
                             </Item.Header>
                             <Item.Description>
-                                Hosted by Bob
+                                Hosted by {activity.host?.displayName}
                             </Item.Description>
+                            {activity.isHost && (
+                                <Item.Description>
+                                    <Label basic color='orange'>
+                                        You are hosting this activity
+                                    </Label>
+                                </Item.Description>
+                            )}
+                            {activity.isGoing && !activity.isHost && (
+                                <Item.Description>
+                                    <Label basic color='green'>
+                                        You are going to this activity
+                                    </Label>
+                                </Item.Description>
+                            )}
                         </Item.Content>
                     </Item>
                 </Item.Group>
@@ -33,7 +48,7 @@ export default observer(function ReactivityListItem({activity}: Props) {
                 </span>
             </Segment>
             <Segment secondary>
-                Attendees go here
+                <ReactivityListItemAttendee attendees={activity.attendees!} />
             </Segment>
             <Segment clearing>
                 <span>
