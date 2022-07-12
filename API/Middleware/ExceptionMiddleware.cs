@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 using Application.Core;
 
 namespace API.Middleware;
@@ -36,7 +37,7 @@ public class ExceptionMiddleware
                 ? new AppException(context.Response.StatusCode, ex.Message, ex.StackTrace)
                 : new AppException(context.Response.StatusCode, "Server Error");
 
-            var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+            var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, ReferenceHandler = ReferenceHandler.Preserve };
 
             var json = JsonSerializer.Serialize(response, options);
 

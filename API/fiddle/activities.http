@@ -2,10 +2,11 @@
 # https://github.com/Huachao/vscode-restclient
 
 @API=http://localhost:5182/api
-@GUID=4b1668ef-8ac6-4ad8-a21f-a9793d1e1fab
-@TOKEN=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImJvYiIsIm5hbWVpZCI6Ijk1ZTAwZDdjLWI1MDAtNDA4YS1hOWUyLWIwMTA1NmIzODIxNCIsImVtYWlsIjoiYm9iQHRlc3QuY29tIiwibmJmIjoxNjU3Mjg2ODI5LCJleHAiOjE2NTc4OTE2MjksImlhdCI6MTY1NzI4NjgyOX0.rVNzKQDqbdEpLy_W52i7JMWcvVoW9wh3Tmy6nyUQVwOzL4kqadseBFqC6e-_4MAJ27a0DINbf3qLltmHpFpVAg
+@GUID={{create.response.body.$}}
+@TOKEN={{login.response.body.token}}
 
-### Login
+### Login as Bob
+# @name login
 
 POST {{API}}/account/login
 content-type: application/json
@@ -13,6 +14,17 @@ content-type: application/json
 {
     "email": "bob@test.com",
     "password": "Passw0rd"
+}
+
+### Login as Paul
+# @name login
+
+POST {{API}}/account/login
+content-type: application/json
+
+{
+    "email": "paul@test.com",
+    "password": "PaulR0cks"
 }
 
 ### Login - failure
@@ -25,7 +37,19 @@ content-type: application/json
     "password": "Bad password"
 }
 
-### Register
+### Register Bob
+
+POST {{API}}/account/register
+Content-Type: application/json
+
+{
+    "email": "bob@test.com",
+    "username": "bob",
+    "displayName": "bob",
+    "password": "Passw0rd"
+}
+
+### Register Paul
 
 POST {{API}}/account/register
 Content-Type: application/json
@@ -59,14 +83,14 @@ Authorization: Bearer {{TOKEN}}
 GET {{API}}/activities
 Authorization: Bearer {{TOKEN}}
 
-### Create
+### Create 
+# @name create
 
 POST {{API}}/activities HTTP/1.1
 content-type: application/json
 Authorization: Bearer {{TOKEN}}
 
 {
-    "id": "{{GUID}}",
     "title": "Title from HTTP client",
     "description": "Such HTTP",
     "category": "Post",
@@ -106,4 +130,9 @@ Authorization: Bearer {{TOKEN}}
 ### Delete
 
 DELETE {{API}}/activities/{{GUID}}
+Authorization: Bearer {{TOKEN}}
+
+### Attend
+
+POST {{API}}/activities/{{GUID}}/attend
 Authorization: Bearer {{TOKEN}}

@@ -3,8 +3,10 @@ using System.Text;
 using API.Services;
 using Application.Activities;
 using Application.Core;
+using Application.Interfaces;
 using Domain;
 using FluentValidation.AspNetCore;
+using Infrastructure.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -30,9 +32,9 @@ public static class ServiceCollectionExtensions
             {
                 opt.RegisterValidatorsFromAssemblyContaining<Create>();
             });
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
-        
+
         services.AddSwaggerGen();
 
         services.AddDbContext<DataContext>(opt => opt.UseSqlite(config.GetConnectionString("DefaultConnection")));
@@ -49,10 +51,11 @@ public static class ServiceCollectionExtensions
 
         services.AddMediatR(typeof(List.Handler).Assembly);
         services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+        services.AddScoped<IUserAccessor, UserAccessor>();
 
         return services;
     }
-    
+
     public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration config)
     {
         services.AddIdentityCore<AppUser>(opt =>
@@ -64,7 +67,7 @@ public static class ServiceCollectionExtensions
             .AddSignInManager<SignInManager<AppUser>>();
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
-        
+
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(opt =>
             {
@@ -76,6 +79,15 @@ public static class ServiceCollectionExtensions
                     ValidateAudience = false
                 };
             });
+
+        services.AddAuthorization(opt =>
+        {
+            opt.AddPolicy("IsActivityHost", policy =>
+            {
+                policy.Requirements.Add(new IsHostRequirement());
+            });
+        });
+        services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
         services.AddScoped<TokenMintingService>();
 
         return services;
