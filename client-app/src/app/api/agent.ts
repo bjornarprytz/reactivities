@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { history } from "../../features/history/history";
 import { User, UserFormValues } from "../../features/users/user";
-import { Reactivity } from "../models/reactivity";
+import { Reactivity, ReactivityFormValues } from "../models/reactivity";
 import { store } from "../stores/store";
 
 const sleep = (delay: number) => {
@@ -76,9 +76,10 @@ const requests = {
 const Activities = {
     list: () => requests.get<Reactivity[]>('/activities'),
     details: (id: string) => requests.get<Reactivity>(`/activities/${id}`),
-    create: (activity: Reactivity) => requests.post<void>('/activities', activity),
-    update: (activity: Reactivity) => requests.put<void>(`/activities/${activity.id}`, activity),
+    create: (activity: ReactivityFormValues) => requests.post<void>('/activities', activity),
+    update: (activity: ReactivityFormValues) => requests.put<void>(`/activities/${activity.id}`, activity),
     delete: (id: string) => requests.del<void>(`/activities/${id}`),
+    attend: (id: string) => requests.post<void>(`/activities/${id}/attend`, {}),
 }
 
 const Account = {

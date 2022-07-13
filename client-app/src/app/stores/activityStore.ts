@@ -1,7 +1,8 @@
 import { format } from "date-fns";
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
-import { Reactivity } from "../models/reactivity";
+import { Profile } from "../models/profile";
+import { Reactivity, ReactivityFormValues } from "../models/reactivity";
 import { store } from "./store";
 
 export default class ReactivityStore {
@@ -84,36 +85,38 @@ export default class ReactivityStore {
         this.selectedActivity = activity;
     }
 
-    createActivity = async (activity: Reactivity) => {
-        this.setLoading(true);
+    createActivity = async (activity: ReactivityFormValues) => {
+        const user = store.userStore.user;
+        const attendee = new Profile(user!);
 
         try {
             await agent.Activities.create(activity);
+            const newActivity = new Reactivity(activity);
+            newActivity.hostUsername = user!.username;
+            newActivity.attendees =  [attendee];
+
+            this.insertActivity(newActivity);
+
             runInAction(() => {
-                this.activityRegistry.set(activity.id, activity);
-                this.selectedActivity = activity;
-                this.editMode = false;
-                this.setLoading(false);
+                this.selectedActivity = newActivity;
             })
         } catch (error) {
             console.log(error);
-            this.setLoading(false);
         }
     }
 
-    updateActivity = async (activity: Reactivity) => {
-        this.setLoading(true);
+    updateActivity = async (activity: ReactivityFormValues) => {
         try {
             await agent.Activities.update(activity);
             runInAction(() => {
-                this.activityRegistry.set(activity.id, activity);
-                this.selectedActivity = activity;
-                this.editMode = false;
-                this.setLoading(false);
+                if (activity.id) {
+                    let updatedActivity = {...this.getActivity(activity.id), ...activity} as Reactivity;
+                    this.activityRegistry.set(activity.id, updatedActivity);
+                    this.selectedActivity = updatedActivity;
+                }
             })
         } catch (error) {
             console.log(error);
-            this.setLoading(false);
         }
     }
 
@@ -123,12 +126,56 @@ export default class ReactivityStore {
             await agent.Activities.delete(id);
             runInAction(() => {
                 this.activityRegistry.delete(id);
-                this.setLoading(false);
             })
         } catch (error) {
             console.log(error);
+        } finally {
             this.setLoading(false);
         }
+    }
+
+    updateAttendance = async () => {
+        const user = store.userStore.user;
+        this.loading = true;
+        try {
+            await agent.Activities.attend(this.selectedActivity!.id);
+            runInAction(() => {
+                if (this.selectedActivity?.isGoing) {
+                    this.selectedActivity.attendees = 
+                        this.selectedActivity.attendees?.filter(a => a.username !== user?.username);
+                    
+                    this.selectedActivity.isGoing = false;
+                } else {
+                    const attendee = new Profile(user!);
+
+                    this.selectedActivity?.attendees?.push(attendee);
+                    this.selectedActivity!.isGoing = true;
+                }
+
+                this.activityRegistry.set(this.selectedActivity!.id, this.selectedActivity!);
+            })
+        } catch {
+
+        } finally {
+            this.setLoading(false);
+        }
+    }
+
+    cancelActivityToggle =async () => {
+        this.loading = true;
+
+        try {
+            await agent.Activities.attend(this.selectedActivity!.id);
+            runInAction(() => {
+                this.selectedActivity!.isCancelled = !this.selectedActivity?.isCancelled;
+                this.activityRegistry.set(this.selectedActivity!.id, this.selectedActivity!);
+            })
+        } catch (error) {
+            console.log(error);
+        } finally {
+            this.setLoading(false);
+        }
+
     }
 
     private insertActivity(activity: Reactivity) {
