@@ -26,7 +26,7 @@ public class Details
         {
             if (await _context.Users
                     .ProjectTo<Profile>(_mapper.ConfigurationProvider)
-                    .SingleOrDefaultAsync(cancellationToken)
+                    .SingleOrDefaultAsync(x => x.Username == request.Username, cancellationToken)
                 is not { } user)
             {
                 return default;

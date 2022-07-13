@@ -4,6 +4,9 @@
 @API=http://localhost:5182/api
 @GUID={{create.response.body.$}}
 @TOKEN={{login.response.body.token}}
+@PHOTO_ID={{photo.response.body.id}}
+@PHOTO_URL={{photo.response.body.url}}
+@USERNAME={{login.response.body.username}}
 
 ### Login as Bob
 # @name login
@@ -78,12 +81,12 @@ Content-Type: application/json
 GET {{API}}/account
 Authorization: Bearer {{TOKEN}}
 
-### List
+### List Activities
 
 GET {{API}}/activities
 Authorization: Bearer {{TOKEN}}
 
-### Create 
+### Create Activity
 # @name create
 
 POST {{API}}/activities HTTP/1.1
@@ -107,12 +110,12 @@ Authorization: Bearer {{TOKEN}}
 
 { }
 
-### Details
+### Activity Details
 
 GET {{API}}/activities/{{GUID}}
 Authorization: Bearer {{TOKEN}}
 
-### Update
+### Update Activity
 
 PUT {{API}}/activities/{{GUID}}
 Content-Type: application/json
@@ -127,12 +130,44 @@ Authorization: Bearer {{TOKEN}}
     "venue": "changes"
 }
 
-### Delete
+### Delete Activity
 
 DELETE {{API}}/activities/{{GUID}}
 Authorization: Bearer {{TOKEN}}
 
-### Attend
+### Activity - Toggle attendance
 
 POST {{API}}/activities/{{GUID}}/attend
+Authorization: Bearer {{TOKEN}}
+
+### Upload Photo
+# @name photo
+
+POST {{API}}/photos
+Authorization: Bearer {{TOKEN}}
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="File"; filename="author.png"
+
+< ./author.png
+--WebAppBoundary--
+
+### Delete Photo
+
+DELETE {{API}}/photos/{{PHOTO_ID}}
+Authorization: Bearer {{TOKEN}}
+
+### Download Photo
+
+GET {{PHOTO_URL}}
+
+### Set Main
+
+POST {{API}}/photos/{{PHOTO_ID}}/setMain
+Authorization: Bearer {{TOKEN}}
+
+### Profile
+
+GET {{API}}/profiles/{{USERNAME}}
 Authorization: Bearer {{TOKEN}}
