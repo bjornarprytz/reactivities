@@ -31,7 +31,7 @@ public class AccountController : ControllerBase
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
-        var user = await _userManager.FindByEmailAsync(loginDto.Email);
+        var user = await _userManager.Users.Include(p => p.Photos).FirstOrDefaultAsync(x => x.Email == loginDto.Email);
 
         if (user is null) return Unauthorized();
 
@@ -75,7 +75,15 @@ public class AccountController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<UserDto>> GetCurrentUser()
     {
-        var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+        if (User.FindFirstValue(ClaimTypes.Email) 
+            is not { } email
+            ||
+            await _userManager.Users.Include(p => p.Photos).FirstOrDefaultAsync(x => x.Email == email)
+            is not {} user
+            )
+        {
+            return NotFound();
+        }
 
         return CreateUserObject(user);
     }
@@ -87,6 +95,6 @@ public class AccountController : ControllerBase
             user.DisplayName, 
             _tokenMintingService.MintToken(user), 
             user.UserName, 
-            null);
+            user.Photos?.FirstOrDefault(x => x.IsMain)?.Url);
     }
 }

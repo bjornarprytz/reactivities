@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Application.Core;
 
@@ -22,6 +23,12 @@ public class ExceptionMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
+        var buf = new byte[]{};
+        var readAsync = await context.Request.Body.ReadAsync(buf);
+        var str = Encoding.UTF8.GetString(buf);
+        
+        
+        
         try
         {
             await _next(context);

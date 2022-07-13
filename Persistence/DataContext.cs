@@ -13,6 +13,7 @@ public class DataContext : IdentityDbContext<AppUser>
     
     public DbSet<Reactivity> Activities { get; set; }
     public DbSet<ActivityAttendee> ActivityAttendees { get; set; }
+    public DbSet<Photo> Photos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

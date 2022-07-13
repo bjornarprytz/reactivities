@@ -30,10 +30,12 @@ Use [vscode HTTP client](https://github.com/Huachao/vscode-restclient) to test a
 - Validation: [Yup](https://github.com/jquense/yup)
 - Date UI: [Datepicker](https://reactdatepicker.com/)
 - Date Format: [date-fns](https://date-fns.org/)
+- Image Storage: [Cloudinary](https://cloudinary.com/documentation/dotnet_integration)
 
 ## Extracurricular Tasks
 
 - Dockerize
+- Refactor to use minimal APIs
 - Write tests
   - React components
   - Typescript
