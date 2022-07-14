@@ -8,14 +8,14 @@
 @PHOTO_URL={{photo.response.body.url}}
 @USERNAME={{login.response.body.username}}
 
-### Login as Bob
+### Login as Bill
 # @name login
 
 POST {{API}}/account/login
 content-type: application/json
 
 {
-    "email": "bob@test.com",
+    "email": "bill@test.com",
     "password": "Passw0rd"
 }
 
@@ -40,15 +40,15 @@ content-type: application/json
     "password": "Bad password"
 }
 
-### Register Bob
+### Register Bill
 
 POST {{API}}/account/register
 Content-Type: application/json
 
 {
-    "email": "bob@test.com",
-    "username": "bob",
-    "displayName": "bob",
+    "email": "bill@test.com",
+    "username": "bill",
+    "displayName": "Billy",
     "password": "Passw0rd"
 }
 
@@ -60,7 +60,7 @@ Content-Type: application/json
 {
     "email": "paul@test.com",
     "username": "paul",
-    "displayName": "pauly",
+    "displayName": "Pauly",
     "password": "PaulR0cks"
 }
 
