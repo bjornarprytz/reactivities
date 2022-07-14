@@ -16,6 +16,12 @@ cd client-app
 npm start
 ```
 
+Drop Database:
+
+```console
+dotnet ef database drop -p Persistence -s API
+```
+
 ## Fiddle
 
 Use [vscode HTTP client](https://github.com/Huachao/vscode-restclient) to test against API with the [http file](API/fiddle/activities.http).
