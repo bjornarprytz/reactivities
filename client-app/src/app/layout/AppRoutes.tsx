@@ -8,7 +8,7 @@ import ReactivityForm from "../../features/activities/form/ReactivityForm";
 import NotFound from "../../features/errors/NotFound";
 import ServerError from "../../features/errors/ServerError";
 import TestErrors from "../../features/errors/TestError";
-import LoginForm from "../../features/users/LoginForm";
+import ProfilePage from "../../features/profiles/ProfilePage";
 import { useStore } from "../stores/store";
 import LoadingComponent from "./LoadingComponents";
 import NavBar from "./NavBar";
@@ -40,6 +40,7 @@ export default observer(function AppRoutes() {
             <Route path='/activities/:id' element={<ReactivityDetails />}/>
             <Route path='/createActivity' element={<ReactivityForm key={location.key} />}/>
             <Route path='/manage/:id' element={<ReactivityForm key={location.key}/>} />
+            <Route path='/profiles/:username' element={<ProfilePage />} />
             <Route path='/errors' element={<TestErrors />}/>
             <Route path='/server-error' element={<ServerError />}/>
             

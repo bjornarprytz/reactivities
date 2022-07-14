@@ -28,9 +28,12 @@ Use [vscode HTTP client](https://github.com/Huachao/vscode-restclient) to test a
 - Routing: [React Router (v6)](https://reactrouter.com/docs/en/v6/getting-started/overview)
 - Forms: [Formik](https://formik.org/)
 - Validation: [Yup](https://github.com/jquense/yup)
-- Date UI: [Datepicker](https://reactdatepicker.com/)
 - Date Format: [date-fns](https://date-fns.org/)
 - Image Storage: [Cloudinary](https://cloudinary.com/documentation/dotnet_integration)
+- Single Components
+  - Date UI: [Datepicker](https://reactdatepicker.com/)
+  - Dropzone: [react-dropzone](https://github.com/react-dropzone/react-dropzone)
+  - Cropper: [react-cropper](https://github.com/react-cropper/react-cropper)
 
 ## Extracurricular Tasks
 
