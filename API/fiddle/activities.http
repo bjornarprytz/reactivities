@@ -167,7 +167,18 @@ GET {{PHOTO_URL}}
 POST {{API}}/photos/{{PHOTO_ID}}/setMain
 Authorization: Bearer {{TOKEN}}
 
-### Profile
+### Profile Details
 
 GET {{API}}/profiles/{{USERNAME}}
 Authorization: Bearer {{TOKEN}}
+
+### Edit Bio
+
+PUT {{API}}/profiles
+Content-Type: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+    "DisplayName": "Rocky",
+    "Bio": "I've got a shiny new bio."
+}

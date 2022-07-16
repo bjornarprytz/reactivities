@@ -27,13 +27,13 @@ public class UpdateAttendance
             if (await _context.Activities
                 .Include(a => a.Attendees)
                 .ThenInclude(u => u.AppUser)
-                .SingleOrDefaultAsync(x => x.Id == request.Id)
+                .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken)
                 is not { } activity)
             {
                 return default;
             }
 
-            if (await _context.Users.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername())
+            if (await _context.Users.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername(), cancellationToken)
                 is not { } user)
             {
                 return default;

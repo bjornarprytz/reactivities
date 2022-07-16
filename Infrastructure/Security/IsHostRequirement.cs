@@ -6,20 +6,18 @@ using Persistence;
 
 namespace Infrastructure.Security;
 
-public class IsHostRequirement : IAuthorizationRequirement
-{
-}
+public class IsHostRequirement : IAuthorizationRequirement { }
 
 public class IsHostRequirementHandler : AuthorizationHandler<IsHostRequirement>
 {
-    private readonly DataContext _dbContext;
+    private readonly DataContext _context;
     private readonly IHttpContextAccessor _httpContextAccessor;
     public IsHostRequirementHandler(
-        DataContext dbContext,
+        DataContext context,
         IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;
-        _dbContext = dbContext;
+        _context = context;
     }
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, IsHostRequirement requirement)
@@ -28,17 +26,21 @@ public class IsHostRequirementHandler : AuthorizationHandler<IsHostRequirement>
 
         if (userId is null
             ||
-            _httpContextAccessor.HttpContext?.Request.RouteValues.SingleOrDefault(x => x.Key == "id").Value?.ToString() is not { } guid
-        ) return;
+            _httpContextAccessor.HttpContext?.Request.RouteValues
+                .SingleOrDefault(x => x.Key == "id").Value?.ToString() 
+                is not { } guid)
+        {
+            return;
+        }
 
         var activityId = Guid.Parse(guid);
 
-        if (await _dbContext.ActivityAttendees.AsNoTracking().SingleOrDefaultAsync(x => x.AppUserId == userId && x.ActivityId == activityId)
-            is { IsHost: true })
+        if (await _context.ActivityAttendees.AsNoTracking().SingleOrDefaultAsync(x => x.AppUserId == userId && x.ActivityId == activityId)
+            is not { IsHost: true })
         {
-            context.Succeed(requirement);
+            return;
         }
-
-        return;
+        
+        context.Succeed(requirement);
     }
 }
