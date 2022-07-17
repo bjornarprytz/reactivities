@@ -85,6 +85,10 @@ export default class ReactivityStore {
         this.selectedActivity = activity;
     }
 
+    clearSelectedActivity = () => {
+        this.selectedActivity = undefined;
+    }
+
     createActivity = async (activity: ReactivityFormValues) => {
         const user = store.userStore.user;
         const attendee = new Profile(user!);

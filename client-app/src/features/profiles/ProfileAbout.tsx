@@ -32,7 +32,7 @@ export default observer(function ProfileAbout({profile}: Props) {
                     {editMode ? (
                         <ProfileForm setEditMode={setEditMode} />
                     ) : (
-                        <Segment>
+                        <Segment style={{whiteSpace: 'pre-wrap'}}>
                             {profile.bio}
                         </Segment>
                     )}

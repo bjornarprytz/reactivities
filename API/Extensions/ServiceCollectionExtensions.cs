@@ -46,6 +46,7 @@ public static class ServiceCollectionExtensions
             {
                 policy.AllowAnyMethod()
                     .AllowAnyHeader()
+                    .AllowCredentials()
                     .WithOrigins("http://localhost:3000"); // TODO: Get this from environment (docker)
             });
         });
@@ -55,6 +56,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IUserAccessor, UserAccessor>();
         services.AddScoped<IPhotoAccessor, PhotoAccessor>();
         services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
+        services.AddSignalR();
 
         return services;
     }
@@ -80,6 +82,20 @@ public static class ServiceCollectionExtensions
                     IssuerSigningKey = key,
                     ValidateIssuer = false,
                     ValidateAudience = false
+                };
+
+                opt.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/chat")))
+                        {
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
                 };
             });
 

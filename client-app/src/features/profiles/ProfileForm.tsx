@@ -5,6 +5,7 @@ import ValidationErrors from "../errors/ValidationErrors"
 import * as Yup from 'yup';
 import { useStore } from "../../app/stores/store";
 import { observer } from "mobx-react-lite";
+import MyTextArea from "../../app/common/form/MyTextArea";
 
 interface Props {
     setEditMode: (state: boolean) => void;
@@ -28,7 +29,7 @@ export default observer(function ProfileForm({setEditMode}: Props) {
             {({isSubmitting, isValid, dirty}) => (
                 <Form className='ui form error' autoComplete='off'>
                     <MyTextInput name='displayName' placeholder='Display Name' />
-                    <MyTextInput name='bio' placeholder='Add your bio' />
+                    <MyTextArea name='bio' placeholder='Add your bio' rows={3} />
                     <Button disabled={!isValid || !dirty} loading={isSubmitting} positive content='Update profile' type='submit' fluid floated='right' />
                 </Form>
             )}

@@ -1,4 +1,5 @@
 ﻿using API.Middleware;
+using API.SignalR;
 using Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -47,6 +48,7 @@ public static class WebApplicationExtensions
         app.UseAuthorization(); // Do _you_ have access?
 
         app.MapControllers();
+        app.MapHub<ChatHub>("/chat");
 
         return app;
     }

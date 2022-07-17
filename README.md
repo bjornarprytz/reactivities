@@ -36,6 +36,7 @@ Use [vscode HTTP client](https://github.com/Huachao/vscode-restclient) to test a
 - Validation: [Yup](https://github.com/jquense/yup)
 - Date Format: [date-fns](https://date-fns.org/)
 - Image Storage: [Cloudinary](https://cloudinary.com/documentation/dotnet_integration)
+- Real-time web: [SignalR](https://www.npmjs.com/package/@microsoft/signalr)
 - Single Components
   - Date UI: [Datepicker](https://reactdatepicker.com/)
   - Dropzone: [react-dropzone](https://github.com/react-dropzone/react-dropzone)
