@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Text;
+﻿using System.Text;
 using API.Services;
 using Application.Activities;
 using Application.Core;
@@ -38,7 +37,8 @@ public static class ServiceCollectionExtensions
 
         services.AddSwaggerGen();
 
-        services.AddDbContext<DataContext>(opt => opt.UseSqlite(config.GetConnectionString("DefaultConnection")));
+        services.AddDbContext<DataContext>(opt => 
+            opt.UseSqlite(config.GetConnectionString("DefaultConnection")));
 
         services.AddCors(options =>
         {

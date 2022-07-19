@@ -15,6 +15,8 @@ public class DataContext : IdentityDbContext<AppUser>
     public DbSet<ActivityAttendee> ActivityAttendees { get; set; }
     public DbSet<Photo> Photos { get; set; }
     public DbSet<Comment> Comments { get; set; }
+    
+    public DbSet<UserFollowing> UserFollowings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -36,5 +38,20 @@ public class DataContext : IdentityDbContext<AppUser>
             .HasOne(a => a.Reactivity)
             .WithMany(c => c.Comments)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<UserFollowing>(b =>
+        {
+            b.HasKey(k => new { k.ObserverId, k.TargetId });
+
+            b.HasOne(o => o.Observer)
+                .WithMany(u => u.Followings)
+                .HasForeignKey(o => o.ObserverId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            b.HasOne(o => o.Target)
+                .WithMany(u => u.Followers)
+                .HasForeignKey(o => o.TargetId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
     }
 }

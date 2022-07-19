@@ -182,3 +182,29 @@ Authorization: Bearer {{TOKEN}}
     "DisplayName": "Rocky",
     "Bio": "I've got a shiny new bio."
 }
+
+### Follow Bob
+
+POST {{API}}/follow/bob
+Authorization: Bearer {{TOKEN}}
+
+### Follow Paul
+
+POST {{API}}/follow/paul
+Authorization: Bearer {{TOKEN}}
+
+### Follow Bill
+
+POST {{API}}/follow/bill
+Authorization: Bearer {{TOKEN}}
+
+
+### Get Bob's Followings
+
+GET {{API}}/follow/bob?predicate=following
+Authorization: Bearer {{TOKEN}}
+
+### Get Bob's Followers
+
+GET {{API}}/follow/bob?predicate=followers
+Authorization: Bearer {{TOKEN}}

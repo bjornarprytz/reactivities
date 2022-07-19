@@ -92,6 +92,8 @@ const Account = {
 const Profiles = {
     get: (username: string) => requests.get<Profile>(`/profiles/${username}`),
     update: (edit: Partial<Profile>) => requests.put<void>('/profiles', edit),
+    updateFollowing: (username: string) => requests.post<void>(`/follow/${username}`, {}),
+    listFollowings: (username: string, predicate: string) => requests.get<Profile[]>(`/follow/${username}?predicate=${predicate}`),
     uploadPhoto: (file: Blob) => {
         let formData = new FormData();
         formData.append('File', file);
