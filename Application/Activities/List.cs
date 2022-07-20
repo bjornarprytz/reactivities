@@ -10,8 +10,8 @@ namespace Application.Activities;
 
 public class List
 {
-    public record Query : IRequestWrapper<IEnumerable<ActivityDto>>;
-    public class Handler : IRequestHandlerWrapper<Query, IEnumerable<ActivityDto>>
+    public record Query(ActivityParams Params) : IRequestWrapper<PagedList<ActivityDto>>;
+    public class Handler : IRequestHandlerWrapper<Query, PagedList<ActivityDto>>
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
@@ -24,13 +24,25 @@ public class List
             _mapper = mapper;
         }
 
-        public async Task<Either<Error, IEnumerable<ActivityDto>>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<Either<Error, PagedList<ActivityDto>>> Handle(Query request, CancellationToken cancellationToken)
         {
-            var activities = await _context.Activities
+            var query = _context.Activities
+                .Where(d => d.Date >= request.Params.StartDate)
+                .OrderBy(d => d.Date)
                 .ProjectTo<ActivityDto>(_mapper.ConfigurationProvider, new { currentUsername = _userAccessor.GetUsername() })
-                .ToListAsync(cancellationToken);
+                .AsQueryable();
 
-            return activities;
+            if (request.Params.IsGoing && !request.Params.IsHost)
+            {
+                query = query.Where(x => x.Attendees.Any(a => a.Username == _userAccessor.GetUsername()));
+            }
+
+            if (request.Params.IsHost && !request.Params.IsGoing)
+            {
+                query = query.Where(x => x.HostUsername == _userAccessor.GetUsername());
+            }
+
+            return await query.ToPagedListAsync(request.Params);
         }
     }
 }

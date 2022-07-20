@@ -41,6 +41,7 @@ Use [vscode HTTP client](https://github.com/Huachao/vscode-restclient) to test a
   - Date UI: [Datepicker](https://reactdatepicker.com/)
   - Dropzone: [react-dropzone](https://github.com/react-dropzone/react-dropzone)
   - Cropper: [react-cropper](https://github.com/react-cropper/react-cropper)
+  - Infinite Scrolling: [react-infinite-scroller](https://github.com/danbovey/react-infinite-scroller)
 
 ## Extracurricular Tasks
 

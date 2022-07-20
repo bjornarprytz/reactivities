@@ -86,6 +86,16 @@ Authorization: Bearer {{TOKEN}}
 GET {{API}}/activities
 Authorization: Bearer {{TOKEN}}
 
+### List Activities # with params
+
+GET {{API}}/activities
+    ?pageSize=2
+    &pageNumber=1
+    &isHost=true
+    &startDate={{$datetime rfc1123 -1 w}}
+Authorization: Bearer {{TOKEN}}
+
+
 ### Create Activity
 # @name create
 

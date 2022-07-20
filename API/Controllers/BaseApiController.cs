@@ -23,4 +23,23 @@ public class BaseApiController : ControllerBase
             _ => NotFound(),
         };
     }
+
+    protected ActionResult HandlePagedResult<T>(Either<Error, PagedList<T>> result)
+    {
+        return (result.State) switch
+        {
+            EitherStatus.IsLeft => BadRequest(result.LeftToSeq().Head),
+            EitherStatus.IsRight => Ok(HandleSuccess()),
+            _ => NotFound(),
+        };
+
+        PagedList<T> HandleSuccess()
+        {
+            var pagedResult = result.ValueUnsafe();
+
+            Response.AddPaginationHeader(pagedResult);
+
+            return pagedResult;
+        }
+    }
 }
