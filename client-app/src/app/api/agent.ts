@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { history } from "../../features/history/history";
 import { User, UserFormValues } from "../../features/users/user";
 import { PaginatedResult } from "../models/pagination";
-import { Photo, Profile } from "../models/profile";
+import { Photo, Profile, UserActivity } from "../models/profile";
 import { Reactivity, ReactivityFormValues } from "../models/reactivity";
 import { store } from "../stores/store";
 
@@ -109,6 +109,7 @@ const Profiles = {
     },
     setMainPhoto: (id: string) => requests.post<void>(`/photos/${id}/setMain`, {}),
     deletePhoto: (id: string) => requests.del<void>(`/photos/${id}`),
+    getActivities: (username: string, predicate: string) => requests.get<UserActivity[]>(`/profiles/${username}/activities?predicate=${predicate}`),
 }
 
 const agent = {

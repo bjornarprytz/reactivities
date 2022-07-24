@@ -218,3 +218,8 @@ Authorization: Bearer {{TOKEN}}
 
 GET {{API}}/follow/bob?predicate=followers
 Authorization: Bearer {{TOKEN}}
+
+### Get activities for user bob
+
+GET {{API}}/profiles/bob/activities?predicate=past
+Authorization: Bearer {{TOKEN}}

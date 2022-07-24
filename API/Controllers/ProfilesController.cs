@@ -18,4 +18,9 @@ public class ProfilesController : BaseApiController
         return HandleResult(await Mediator.Send(edit));
     }
 
+    [HttpGet("{username}/activities")]
+    public async Task<IActionResult> GetActivities(string username, [FromQuery] string predicate, CancellationToken cancellationToken)
+    {
+        return HandleResult(await Mediator.Send(new ListActivities.Query(username, predicate), cancellationToken));
+    }
 }

@@ -1,7 +1,8 @@
 ﻿using Application.Activities;
 using Application.Comments;
-using AutoMapper;
+using Application.Profiles;
 using Domain;
+using Profile = AutoMapper.Profile;
 
 namespace Application.Core;
 
@@ -13,6 +14,10 @@ public class MappingProfiles : Profile
         string currentUsername = null; // This variable is set via named field of anonymous object (e.g. new { currentUsername = _userAccessor.GetUsername() })
         
         CreateMap<Reactivity, Reactivity>();
+        CreateMap<Reactivity, UserActivityDto>()
+            .ForMember(
+                d => d.HostUsername,
+                o => o.MapFrom(s => s.Attendees.FirstOrDefault(x => x.IsHost).AppUser.UserName));;
         CreateMap<Reactivity, ActivityDto>()
             .ForMember(
                 d => d.HostUsername,
