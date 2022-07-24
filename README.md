@@ -22,6 +22,13 @@ Drop Database:
 dotnet ef database drop -p Persistence -s API
 ```
 
+Build Client
+
+```console
+cd client-app
+npm run build
+```
+
 ## Fiddle
 
 Use [vscode HTTP client](https://github.com/Huachao/vscode-restclient) to test against API with the [http file](API/fiddle/activities.http).

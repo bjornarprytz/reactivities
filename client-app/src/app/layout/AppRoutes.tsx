@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
-import { useLocation, Routes, Route } from "react-router-dom";
+import { useLocation, Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { Container } from "semantic-ui-react";
 import ReactivityDashboard from "../../features/activities/dashboard/ReactivityDashboard";
 import ReactivityDetails from "../../features/activities/details/ReactivityDetails";
@@ -36,17 +36,29 @@ export default observer(function AppRoutes() {
         <NavBar />
         <Container style={{marginTop: '7em'}}>
           <Routes>
-            <Route path='/activities' element={<ReactivityDashboard />}/>
-            <Route path='/activities/:id' element={<ReactivityDetails />}/>
-            <Route path='/createActivity' element={<ReactivityForm key={location.key} />}/>
-            <Route path='/manage/:id' element={<ReactivityForm key={location.key}/>} />
-            <Route path='/profiles/:username' element={<ProfilePage />} />
-            <Route path='/errors' element={<TestErrors />}/>
-            <Route path='/server-error' element={<ServerError />}/>
-            
+            <Route element={<PrivateRoute />}>
+              <Route path='/activities' element={<ReactivityDashboard />}/>
+              <Route path='/activities/:id' element={<ReactivityDetails />}/>
+              <Route path='/createActivity' element={<ReactivityForm key={location.key} />}/>
+              <Route path='/manage/:id' element={<ReactivityForm key={location.key}/>} />
+              <Route path='/profiles/:username' element={<ProfilePage />} />
+              <Route path='/errors' element={<TestErrors />}/>
+              <Route path='/server-error' element={<ServerError />}/>  
+            </Route>
+
             <Route path='*' element={<NotFound />} />
           </Routes>
         </Container>
       </>
     );
   })
+
+function PrivateRoute() {
+  const {userStore: {isLoggedIn}} = useStore();
+  
+  return (
+    isLoggedIn
+      ? <Outlet />
+      : <Navigate to='/' />
+  )    
+}

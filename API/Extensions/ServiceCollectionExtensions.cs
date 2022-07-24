@@ -37,8 +37,9 @@ public static class ServiceCollectionExtensions
 
         services.AddSwaggerGen();
 
-        services.AddDbContext<DataContext>(opt => 
-            opt.UseSqlite(config.GetConnectionString("DefaultConnection")));
+        services.AddDbContext<DataContext>(opt =>
+            opt.UseNpgsql(config.GetConnectionString("DefaultConnection")));
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true); // Fix for a datetime problem related to .NET6 and PostgreSQL (https://stackoverflow.com/questions/69961449/net6-and-datetime-problem-cannot-write-datetime-with-kind-utc-to-postgresql-ty)
 
         services.AddCors(options =>
         {

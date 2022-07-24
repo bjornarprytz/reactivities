@@ -8,6 +8,7 @@ import './app/layout/styles.css';
 import { store, StoreContext } from './app/stores/store';
 import { history } from './features/history/history';
 import reportWebVitals from './reportWebVitals';
+import ScrollToTop from './app/layout/ScrollToTop';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,6 +16,7 @@ const root = ReactDOM.createRoot(
 root.render(
     <StoreContext.Provider value={store}>
       <HistoryRouter history={history}>
+        <ScrollToTop />
         <App />
       </HistoryRouter>
     </StoreContext.Provider>
