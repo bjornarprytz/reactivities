@@ -5,15 +5,21 @@ WORKDIR /source
 # copy csproj and restore as distinct layers
 COPY *.sln .
 COPY API/*.csproj ./API/
+COPY Application/*.csproj ./Application/
+COPY Domain/*.csproj ./Domain/
+COPY Persistence/*.csproj ./Persistence/
+COPY Infrastructure/*.csproj ./Infrastructure/
 RUN dotnet restore
 
 # copy everything else and build app
-COPY API/. ./API/
-WORKDIR /source/API
-RUN dotnet publish -c release -o /app --no-restore
+COPY . ./
+RUN dotnet publish -c release -o /app
 
 # final stage/image
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build /app ./
+
+EXPOSE 4500
+
 ENTRYPOINT ["dotnet", "API.dll"]

@@ -1,6 +1,6 @@
 services:
-  db:
-    container_name: "db-dev"
+  postgres:
+    container_name: "postgres"
     image: postgres:latest
     ports:
       - 5432:5432
@@ -9,17 +9,18 @@ services:
       - POSTGRES_PASSWORD=secret
   api:
     container_name: "server"
-    build:
-      context: server/
-      dockerfile: server/Dockerfile
+    build: ./server/
     depends_on:
-      - db
+      - postgres
+    ports:
+      - 4000:80
   app:
     container_name: "client"
-    build:
-      context: client-app/
-      dockerfile: client-app/Dockerfile
+    build: ./client-app/
     ports:
-      - 3000:8080
+      - 3000:3000
+    environment:
+      - REACT_APP_API_URL=http://localhost:4000/api
+      - REACT_APP_CHAT_URL=http://localhost:4000/chat
     depends_on:
       - api
