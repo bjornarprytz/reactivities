@@ -1,9 +1,25 @@
 services:
-  api:
-    container_name: "dev"
+  db:
+    container_name: "db-dev"
     image: postgres:latest
     ports:
       - 5432:5432
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=secret
+  api:
+    container_name: "server"
+    build:
+      context: server/
+      dockerfile: server/Dockerfile
+    depends_on:
+      - db
+  app:
+    container_name: "client"
+    build:
+      context: client-app/
+      dockerfile: client-app/Dockerfile
+    ports:
+      - 3000:8080
+    depends_on:
+      - api
