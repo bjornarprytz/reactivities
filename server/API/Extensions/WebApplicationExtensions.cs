@@ -41,6 +41,9 @@ public static class WebApplicationExtensions
         }
 
         app.UseRouting();
+        
+        app.UseDefaultFiles();
+        app.UseStaticFiles();
 
         app.UseHttpsRedirection();
 
@@ -51,6 +54,7 @@ public static class WebApplicationExtensions
 
         app.MapControllers();
         app.MapHub<ChatHub>("/chat");
+        app.MapFallbackToController("Index", "Fallback"); // This is coupled to FallbackController.cs and its Index() method
 
         return app;
     }

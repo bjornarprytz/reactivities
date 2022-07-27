@@ -2,31 +2,32 @@
 
 ## How to run
 
-Start API:
+Run container:
 
 ```console
-cd API
-dotnet run
+docker compose build
+docker compose up
 ```
 
-Start Client:
+Run Client:
 
 ```console
 cd client-app
 npm start
 ```
 
+Run Server:
+
+```console
+cd server
+dotnet run
+```
+
 Drop Database:
 
 ```console
+cd server
 dotnet ef database drop -p Persistence -s API
-```
-
-Build Client
-
-```console
-cd client-app
-npm run build
 ```
 
 ## Fiddle
@@ -52,7 +53,6 @@ Use [vscode HTTP client](https://github.com/Huachao/vscode-restclient) to test a
 
 ## Extracurricular Tasks
 
-- Dockerize
 - Refactor to use minimal APIs
 - Write tests
   - React components

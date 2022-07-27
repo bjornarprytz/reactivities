@@ -7,20 +7,10 @@ services:
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=secret
-  api:
-    container_name: "server"
-    build: ./server/
+  app:
+    container_name: "app"
+    build: .
+    ports:
+      - 3000:80
     depends_on:
       - postgres
-    ports:
-      - 4000:80
-  app:
-    container_name: "client"
-    build: ./client-app/
-    ports:
-      - 3000:3000
-    environment:
-      - REACT_APP_API_URL=http://localhost:4000/api
-      - REACT_APP_CHAT_URL=http://localhost:4000/chat
-    depends_on:
-      - api
