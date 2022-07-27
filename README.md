@@ -2,7 +2,7 @@
 
 ## How to run
 
-Run container (on localhost:3000):
+Run container (on `localhost:3000`):
 
 ```console
 docker compose build
@@ -19,7 +19,7 @@ npm start
 Run Server:
 
 ```console
-cd server
+cd server/API
 dotnet run
 ```
 
