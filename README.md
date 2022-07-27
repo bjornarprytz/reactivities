@@ -2,7 +2,7 @@
 
 ## How to run
 
-Run container:
+Run container (on localhost:3000):
 
 ```console
 docker compose build
