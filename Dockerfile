@@ -11,7 +11,7 @@ COPY ./client-app/ ./
 RUN npm run build
 
 # https://hub.docker.com/_/microsoft-dotnet
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS api-build
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS api-build
 WORKDIR /source
 
 # copy csproj and restore as distinct layers
@@ -28,7 +28,7 @@ COPY ./server/. ./
 RUN dotnet publish -c release -o /out
 
 # final stage/image
-FROM mcr.microsoft.com/dotnet/aspnet:6.0
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine
 WORKDIR /app
 COPY --from=api-build /out ./
 COPY --from=app-build /usr/src/app/build ./wwwroot

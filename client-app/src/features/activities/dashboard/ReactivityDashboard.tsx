@@ -18,9 +18,6 @@ export default observer(function ReactivityDashboard() {
         setLoadingNext(true);
         setPagingParams(new PagingParams(pagination!.currentPage + 1));
         loadActivities().then(() => setLoadingNext(false));
-
-        console.log(pagination?.totalPages);
-        console.log(pagination?.currentPage);
     }
 
     useEffect(() => {

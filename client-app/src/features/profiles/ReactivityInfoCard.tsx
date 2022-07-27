@@ -10,11 +10,6 @@ interface Props {
 }
 
 export default observer(function ReactivityInfoCard({activity}: Props) {
-
-    useEffect( () =>{
-        console.log(activity.date);
-    }, [activity.date])
-
     return (
         <Card as={Link} to={`/activities/${activity.id}`}>
             <Image src={`/assets/categoryImages/${activity.category}.jpg`} />
@@ -23,7 +18,6 @@ export default observer(function ReactivityInfoCard({activity}: Props) {
                 <Card.Meta>{format(new Date(activity.date), 'do LLL')}</Card.Meta>
                 <Card.Meta>{format(new Date(activity.date), 'h:mm a')}</Card.Meta>
             </Card.Content>
-            
         </Card>
     )
 })

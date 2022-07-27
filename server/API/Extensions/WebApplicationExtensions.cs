@@ -33,15 +33,43 @@ public static class WebApplicationExtensions
     {
         app.UseMiddleware<ExceptionMiddleware>();
 
+        app.UseXContentTypeOptions();
+        app.UseReferrerPolicy(opt => opt.NoReferrer());
+        app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
+        app.UseXfo(opt => opt.Deny());
+        app.UseCsp/*ReportOnly*/(opt => opt
+            .BlockAllMixedContent()
+            .StyleSources(s => s.Self().CustomSources("https://fonts.googleapis.com", "https://cdn.jsdelivr.net"))
+            .FontSources(s => s.Self().CustomSources("https://fonts.gstatic.com", "https://cdn.jsdelivr.net", "data:"))
+            .FormActions(s => s.Self())
+            .FrameAncestors(s => s.Self())
+            .ImageSources(s => s.Self().CustomSources("https://res.cloudinary.com", "blob:"))
+            .ScriptSources(s => s.Self())
+        );
+
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+        else
+        {
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("Strict-Transport-Security", "max-age=31536000");
+                await next.Invoke();
+            });
+        }
+
+        if (Environment.GetEnvironmentVariable("PORT") is { } port) // Concession to Heroku port magic (https://stackoverflow.com/questions/59434242/asp-net-core-gives-system-net-sockets-socketexception-error-on-heroku)
+        {
+            app.Urls.Add($"http://*:{port}");
+        }
+
 
         app.UseRouting();
-        
+
         app.UseDefaultFiles();
         app.UseStaticFiles();
 

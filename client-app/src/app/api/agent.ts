@@ -15,8 +15,6 @@ const sleep = (delay: number) => {
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
-console.log(process.env.REACT_APP_API_URL);
-
 axios.interceptors.request.use(request => {
     const token = store.commonStore.token;
 

@@ -12,7 +12,7 @@ public static class ConnectionStringExtensions
 
         // Depending on if in development or production, use either Heroku-provided
         // connection string, or development connection string from env var.
-        if (env == "Development")
+        if (env != "Production")
         {
             // Use connection string from file.
             connStr = config.GetConnectionString("DefaultConnection");
@@ -20,7 +20,7 @@ public static class ConnectionStringExtensions
         else
         {
             // Use connection string provided at runtime by Heroku.
-            var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+            var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL") ?? throw new Exception("Missing environment variable: DATABASE_URL");
 
             // Parse connection URL to connection string for Npgsql
             connUrl = connUrl.Replace("postgres://", string.Empty);

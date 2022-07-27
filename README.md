@@ -30,6 +30,13 @@ cd server
 dotnet ef database drop -p Persistence -s API
 ```
 
+Deploy to Heroku ([docs](https://dashboard.heroku.com/apps/reactivities-thwzd/deploy/heroku-container)):
+
+```console
+heroku container:push web --app=<app_name>
+heroku container:release web --app=<app_name>
+```
+
 ## Fiddle
 
 Use [vscode HTTP client](https://github.com/Huachao/vscode-restclient) to test against API with the [http file](API/fiddle/activities.http).
@@ -50,6 +57,8 @@ Use [vscode HTTP client](https://github.com/Huachao/vscode-restclient) to test a
   - Dropzone: [react-dropzone](https://github.com/react-dropzone/react-dropzone)
   - Cropper: [react-cropper](https://github.com/react-cropper/react-cropper)
   - Infinite Scrolling: [react-infinite-scroller](https://github.com/danbovey/react-infinite-scroller)
+- Check [security headers](https://securityheaders.com/)
+- Deploy on [Heroku](https://heroku.com/)
 
 ## Extracurricular Tasks
 
