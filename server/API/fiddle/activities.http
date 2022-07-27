@@ -1,8 +1,7 @@
 # To use this, download VSCode extension:
 # https://github.com/Huachao/vscode-restclient
 
-# @API=http://localhost:3000/api
-@API=https://reactivities-thwzd.herokuapp.com/
+@API=http://localhost:3000/api
 @GUID={{create.response.body.$}}
 @TOKEN={{login.response.body.token}}
 @PHOTO_ID={{photo.response.body.id}}
