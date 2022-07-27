@@ -54,6 +54,7 @@ Use [vscode HTTP client](https://github.com/Huachao/vscode-restclient) to test a
 ## Extracurricular Tasks
 
 - Refactor to use minimal APIs
+- Add HTTPS redirection
 - Write tests
   - React components
   - Typescript
